@@ -1,48 +1,138 @@
-XML jako drzewo obiektów
-|
+# 📘 Java Exam Cheatsheet
+
+Repozytorium z przykładami kodu pomocnymi na egzaminie z programowania obiektowego w Javie.  
+Znajdziesz tu najważniejsze elementy: **OOP, wyjątki, testy, pliki, XML, serwer/klient oraz `toString()`**.
+
+---
+
+## 🔹 1. OOP – Klasy, abstrakcja, dziedziczenie
+```
+abstract class Animal {
+    protected String name;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    public abstract void makeSound();
+    public String getName() { return name; }
+}
+
+class Dog extends Animal {
+    public Dog(String name) { super(name); }
+
+    @Override
+    public void makeSound() {
+        System.out.println(name + " says: Woof!");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = new Dog("Burek");
+        dog.makeSound();
+    }
+}
+```
+## 2. Własny wyjątek
+```
+class MyException extends Exception {
+    public MyException(String message) {
+        super(message);
+    }
+}
+
+public class Main {
+    public static void riskyMethod(boolean fail) throws MyException {
+        if (fail) throw new MyException("Coś poszło nie tak!");
+    }
+
+    public static void main(String[] args) {
+        try {
+            riskyMethod(true);
+        } catch (MyException e) {
+            System.out.println("Złapano wyjątek: " + e.getMessage());
+        }
+    }
+}
+```
+# 3. Testy Jednostkowe JUNIT
+```
+public class Calculator {
+    public int add(int a, int b) { return a + b; }
+}
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+class CalculatorTest {
+    @Test
+    void testAdd() {
+        Calculator calc = new Calculator();
+        assertEquals(5, calc.add(2, 3));
+    }
+}
+```
+## 4. Odczyt/zapis pliku
+```
+import java.io.*;
+
+public class FileWriteRead {
+    public static void main(String[] args) {
+        String filename = "data.txt";
+
+        // zapis
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            writer.write("Hello, world!");
+        } catch (IOException e) { e.printStackTrace(); }
+
+        // odczyt
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println("Read: " + line);
+            }
+        } catch (IOException e) { e.printStackTrace(); }
+    }
+}
+```
+## 5.XML jako drzewo obiektów (DOM)
+```
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.*;
-
 import java.io.File;
 
 public class OdczytXML_DOM {
     public static void main(String[] args) {
         try {
             File plik = new File("dane.xml");
-
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(plik);
 
             doc.getDocumentElement().normalize();
-
             NodeList lista = doc.getElementsByTagName("osoba");
 
             for (int i = 0; i < lista.getLength(); i++) {
                 Node node = lista.item(i);
-
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
-
                     String imie = element.getElementsByTagName("imie").item(0).getTextContent();
                     String nazwisko = element.getElementsByTagName("nazwisko").item(0).getTextContent();
                     String wiek = element.getElementsByTagName("wiek").item(0).getTextContent();
-
                     System.out.println(imie + " " + nazwisko + ", wiek: " + wiek);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) { e.printStackTrace(); }
     }
 }
-
-XML jako obiekty
+```
+##6. XML jako obiekty (JAXB)
+```
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-// Klasa odwzorowana na XML
 @XmlRootElement
 public class Osoba {
     private String imie;
@@ -61,9 +151,11 @@ public class Osoba {
     public int getWiek() { return wiek; }
     public void setWiek(int wiek) { this.wiek = wiek; }
 }
+```
 
-SERWER/KLIENT z Obsługą błędów
-
+##7. Serwer / Klient z obsługą błędów
+Serwer:
+```
 import java.io.*;
 import java.net.*;
 
@@ -85,8 +177,9 @@ public class Serwer {
         }
     }
 }
-
-
+```
+Klient:
+```
 import java.io.*;
 import java.net.*;
 
@@ -104,9 +197,4 @@ public class Klient {
         }
     }
 }
-
-ToSTRING
-    public String toString() {
-        return "Person{name='" + name + "', age=" + age + "}";
-    }
-}
+```
