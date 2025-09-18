@@ -73,7 +73,7 @@ class CalculatorTest {
     }
 }
 ```
-## 4. Odczyt/zapis pliku
+## 4.1 Odczyt/zapis pliku
 ```
 import java.io.*;
 
@@ -95,6 +95,46 @@ public class FileWriteRead {
         } catch (IOException e) { e.printStackTrace(); }
     }
 }
+```
+
+##4.2 Odczyt po linii
+```
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class FileReadWriteExample {
+    public static void main(String[] args) {
+        String fileName = "dane.txt";
+
+        // --- ZAPIS DO PLIKU ---
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write("To jest pierwsza linia\n");
+            writer.write("Tutaj mamy drugą linie\n");
+            writer.write("A to jest trzecia linia\n");
+            System.out.println("Zapisano dane do pliku: " + fileName);
+        } catch (IOException e) {
+            System.err.println("Błąd zapisu do pliku: " + e.getMessage());
+        }
+
+        // --- ODCZYT PO LINII ---
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            int lineNumber = 1;
+
+            System.out.println("\nZawartość pliku:");
+            while ((line = reader.readLine()) != null) {
+                System.out.println("Linia " + lineNumber + ": " + line);
+                lineNumber++;
+            }
+        } catch (IOException e) {
+            System.err.println("Błąd odczytu pliku: " + e.getMessage());
+        }
+    }
+}
+
 ```
 ## 5.XML jako drzewo obiektów (DOM)
 ```
