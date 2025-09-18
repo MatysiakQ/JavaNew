@@ -198,3 +198,78 @@ public class Klient {
     }
 }
 ```
+
+##8. Serwer/Klient z komunikacją dwustronną
+Serwer
+```
+import java.io.*;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+
+public class Serwer {
+    public static void main(String[] args) {
+        try (ServerSocket serverSocket = new ServerSocket(5000)) {
+            System.out.println("Serwer czeka na połączenie...");
+
+            try (Socket socket = serverSocket.accept();
+                 BufferedReader in = new BufferedReader(
+                         new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+                 PrintWriter out = new PrintWriter(
+                         new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
+                 BufferedReader konsola = new BufferedReader(
+                         new InputStreamReader(System.in))) {
+
+                System.out.println("Klient połączony!");
+
+                // pierwsza wiadomość od serwera
+                out.println("Cześć, jestem serwerem!");
+
+                String wiadomoscOdKlienta;
+                while ((wiadomoscOdKlienta = in.readLine()) != null) {
+                    System.out.println("Klient: " + wiadomoscOdKlienta);
+
+                    System.out.print("Serwer> ");
+                    String odpowiedz = konsola.readLine();
+                    out.println(odpowiedz);
+                }
+            }
+
+        } catch (IOException e) {
+            System.err.println("Błąd serwera:");
+            e.printStackTrace();
+        }
+    }
+}
+```
+Klient
+```
+import java.io.*;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+
+public class Klient {
+    public static void main(String[] args) {
+        try (Socket socket = new Socket("localhost", 5000);
+             BufferedReader in = new BufferedReader(
+                     new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+             PrintWriter out = new PrintWriter(
+                     new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
+             BufferedReader konsola = new BufferedReader(
+                     new InputStreamReader(System.in))) {
+
+            String wiadomoscOdSerwera;
+            while ((wiadomoscOdSerwera = in.readLine()) != null) {
+                System.out.println("Serwer: " + wiadomoscOdSerwera);
+
+                System.out.print("Klient> ");
+                String wiadomosc = konsola.readLine();
+                out.println(wiadomosc);
+            }
+
+        } catch (IOException e) {
+            System.err.println("Błąd połączenia z serwerem:");
+            e.printStackTrace();
+        }
+    }
+}
+```
