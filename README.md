@@ -34,6 +34,7 @@ public class Main {
     }
 }
 ```
+---
 ## 2. Własny wyjątek
 ```
 class MyException extends Exception {
@@ -56,6 +57,7 @@ public class Main {
     }
 }
 ```
+---
 # 3. Testy Jednostkowe JUNIT
 ```
 public class Calculator {
@@ -73,6 +75,7 @@ class CalculatorTest {
     }
 }
 ```
+---
 ## 4.1 Odczyt/zapis pliku
 ```
 import java.io.*;
@@ -96,7 +99,7 @@ public class FileWriteRead {
     }
 }
 ```
-
+---
 ##4.2 Odczyt po linii
 ```
 import java.io.BufferedReader;
@@ -136,6 +139,7 @@ public class FileReadWriteExample {
 }
 
 ```
+---
 ## 5.XML jako drzewo obiektów (DOM)
 ```
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -168,6 +172,7 @@ public class OdczytXML_DOM {
     }
 }
 ```
+---
 ##6. XML jako obiekty (JAXB)
 ```
 import jakarta.xml.bind.annotation.XmlElement;
@@ -192,8 +197,9 @@ public class Osoba {
     public void setWiek(int wiek) { this.wiek = wiek; }
 }
 ```
-
+---
 ##7. Serwer / Klient z obsługą błędów
+---
 Serwer:
 ```
 import java.io.*;
@@ -218,6 +224,7 @@ public class Serwer {
     }
 }
 ```
+---
 Klient:
 ```
 import java.io.*;
@@ -238,8 +245,9 @@ public class Klient {
     }
 }
 ```
-
+---
 ##8. Serwer/Klient z komunikacją dwustronną
+---
 Serwer
 ```
 import java.io.*;
@@ -281,6 +289,7 @@ public class Serwer {
     }
 }
 ```
+---
 Klient
 ```
 import java.io.*;
@@ -313,4 +322,3 @@ public class Klient {
     }
 }
 ```
----
