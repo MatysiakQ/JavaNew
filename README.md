@@ -322,3 +322,78 @@ public class Klient {
     }
 }
 ```
+##9. ToString
+```
+import java.util.ArrayList;
+import java.util.List;
+
+// Klasa bazowa
+class Person {
+    protected String name;
+    protected int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Osoba: " + name + " (wiek: " + age + ")";
+    }
+}
+
+// Klasa pochodna
+class Student extends Person {
+    private String field;
+    private double averageGrade;
+
+    public Student(String name, int age, String field, double averageGrade) {
+        super(name, age);
+        this.field = field;
+        this.averageGrade = averageGrade;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+               ", kierunek: " + field +
+               ", średnia ocen: " + averageGrade;
+    }
+}
+
+// Kolejna klasa pochodna
+class Teacher extends Person {
+    private String subject;
+    private int yearsOfExperience;
+
+    public Teacher(String name, int age, String subject, int yearsOfExperience) {
+        super(name, age);
+        this.subject = subject;
+        this.yearsOfExperience = yearsOfExperience;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+               ", przedmiot: " + subject +
+               ", doświadczenie: " + yearsOfExperience + " lat";
+    }
+}
+
+// Główna klasa
+public class ToStringAdvancedExample {
+    public static void main(String[] args) {
+        List<Person> people = new ArrayList<>();
+        people.add(new Student("Ala", 21, "Informatyka", 4.5));
+        people.add(new Student("Marek", 23, "Matematyka", 3.9));
+        people.add(new Teacher("Dr Kowalski", 45, "Algorytmy", 20));
+        people.add(new Teacher("Prof. Nowak", 55, "Statystyka", 30));
+
+        System.out.println("Lista osób:");
+        for (Person p : people) {
+            System.out.println(p.toString());
+        }
+    }
+}
+```
